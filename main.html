@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title></title>
+</head>
+<style>
+@keyframes click {
+  0%{
+    transform: translateY(0);
+  }
+
+  100%{
+    transform: translateY(-200px);
+
+  }
+  }
+  #joystick-container {
+    position: fixed;
+    bottom: 50px;
+    left: 50px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    touch-action: none;
+    z-index: 2;
+  }
+
+  #joystick-knob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+  }
+
+#character {
+    position: absolute;
+    width: 80px;
+    height: 100px;
+    border-radius: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    transition: opacity 0.3s; 
+  }
+
+   #kid {
+    position: relative;
+    width: 65px;
+    bottom: -130px;
+    left: 200px;
+    z-index: 2;
+}
+
+#mom {
+    position: relative;
+    width: 65px;
+    bottom: -130px;
+    left: 400px;
+    z-index: 2;
+  }
+
+.play {
+  animation: click 2s forwards;
+
+}
+
+
+#hand {
+  position: fixed;
+  z-index: 3;
+}
+
+#tv {
+  position: fixed;
+  z-index: 4;
+  bottom: -35px;
+  right: 65px;
+}
+</style>
+  <body style="background-image: url('bg3.png'); background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
+  <img src="pws.png" id="character" />
+  <img src="ml.png" id="mom" />
+    <img src="kp.png" id="kid" />
+
+  <img src="mw.png" id="monkeywe" hidden />
+  <div id="joystick-container">
+    <div id="joystick-knob"></div>
+  </div>
+  
+  <img src="hand.png" id="hand"hidden/>
+  
+</body>
+<script>
+
+    
+const knob = document.getElementById('joystick-knob');
+const container = document.getElementById('joystick-container');
+const char = document.getElementById('character');
+
+let rect = container.getBoundingClientRect();
+let centerX = rect.width / 2;
+let centerY = rect.height / 2;
+
+let pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+let move = { x: 0, y: 0 };
+let speed = 5;
+let active = false;
+
+container.addEventListener('mousedown', startMove);
+container.addEventListener('touchstart', startMove, { passive: false });
+
+window.addEventListener('mousemove', doMove);
+window.addEventListener('touchmove', doMove, { passive: false });
+
+window.addEventListener('mouseup', endMove);
+window.addEventListener('touchend', endMove);
+
+function startMove(e) {
+  active = true;
+  doMove(e);
+}
+
+function endMove() {
+  active = false;
+  knob.style.transform = `translate(-50%, -50%)`;
+  move.x = 0;
+  move.y = 0;
+}
+
+function doMove(e) {
+  
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  
+  let dx = clientX - (rect.left + centerX);
+  let dy = clientY - (rect.top + centerY);
+  
+  const distance = Math.min(Math.sqrt(dx * dx + dy * dy), 50);
+  const angle = Math.atan2(dy, dx);
+  
+  const x = Math.cos(angle) * distance;
+  const y = Math.sin(angle) * distance;
+  
+  knob.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+  
+  move.x = x / 50;
+  move.y = y / 50;
+}
+
+function update() {
+  pos.x += move.x * speed;
+  pos.y += move.y * speed;
+  
+  char.style.left = pos.x + "px";
+  char.style.top = pos.y + "px";
+  
+  requestAnimationFrame(update);
+}
+
+update();
+setTimeout(() => {
+  hand.hidden = false;
+
+  document.body.style.backgroundImage = "url('button.jpg')";
+  document.querySelectorAll("body *").forEach(el => {
+  if (el.id !== "hand") {
+    el.style.visibility = "hidden";
+  }
+});
+
+hand.classList.add("play");
+}, 8000);
+
+
+
+setTimeout(() => {
+  
+  window.location.href = "2.html"
+
+}, 9000);
+</script>
+</html>
