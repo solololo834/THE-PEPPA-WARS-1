@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+<style>
+
+body {
+  background-color: black;
+}
+  #a {
+    position: fixed;
+    width: 170px;
+    height: 270px;
+    left: 300px;
+    bottom: 1px;
+  }
+  
+  #dialog {
+    position: fixed;
+    right: 200px;
+    top: 200px;
+  }
+  
+  #tv{
+    position: fixed;
+    bottom: -65px;
+    left: 100px;
+  }
+
+  #vid {
+    position: fixed;
+    bottom: -65px;
+    left: 100px;
+  }
+  #ido {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 1); display: none; z-index: 2005;  flex-direction: column; align-items: center; justify-content: center; color: white; gap: 15px;
+  }
+  
+
+</style>
+<body>
+  <img src="lab.png" id="a" />  <dialog id="dialog">
+    <span id="text-dialog"></span>
+  </dialog>
+
+  <video src="break.mp4" height="400px" width="550px" preload="none" id="tv" muted playsinline hidden></video>
+
+<div id="ido"hidden>
+  <h1 id="h">TO BE CONTINUED</h1>
+</div>
+
+<audio src="lv_0_20260416180312.mp3" id="audio"></audio>
+<video src="outro.mp4" height="365px" width="505px" preload="none" id="vid"muted playsinline hidden></video>
+</body>
+<script>
+  const myDialog = document.getElementById("dialog");
+  const textContainer = document.getElementById("text-dialog");
+  
+ function ketik(targetElement, teks, speed = 50) {
+  let i = 0;
+  targetElement.innerHTML = ""; // Kosongkan dulu
+  
+  myDialog.show();
+  function jalan() {
+    if (i < teks.length) {
+      targetElement.innerHTML += teks[i];
+      i++;
+      setTimeout(jalan, speed);
+    }
+  }
+  jalan();
+}
+  ketik(textContainer, "HAHA I JUST BOMBED MONKEYS LAND", 50);
+  
+const ido = document.getElementById("ido");
+  setTimeout(() => {
+    tv.hidden = false;
+    tv.play();
+    
+  document.querySelectorAll("body *").forEach(el => {
+  if (el.id !== "tv" && el.id !== "ido" && el.id !== "h"  && el.id !== "vid") {
+    el.style.visibility = "hidden";
+  }
+});
+  }, 3000);
+ 
+ setTimeout(() => {
+   audio.hidden = false;
+   vid.hidden = false;
+   ido.style.display = "flex";
+ }, 12000);
+ 
+   setTimeout(() => {
+  document.querySelectorAll("body *").forEach(el => {
+    if (el.id !== "vid" && el.id !== "audio") {
+      el.style.visibility = "hidden";
+    }
+  });
+
+
+  alert("tap anywhere");
+  document.body.onclick = function tap(){
+        vid.play().then(() => {
+      console.log("Video playing!");
+      audio.play();
+    }).catch(err => {
+      console.error("Video error:", err);
+    });
+
+    
+    document.body.onclick = null;
+};
+
+  }, 15000);
+
+</script>
+</html>
