@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title></title>
+</head>
+<link href="https:
+
+<style>
+  @keyframes datang {
+    0% { transform: TranslateX(0); }
+    100% { transform: TranslateX(200px); }
+  }
+
+  @keyframes datang2 {
+    0% { transform: TranslateX(0); }
+    100% { transform: TranslateX(-1000px); }
+  }
+
+  @keyframes hilang {
+    0% { opacity: 0.5; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes falls {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-90deg); }
+  }
+
+  @keyframes tembak {
+    0% { transform: translateX(200px)rotate(0deg); }
+    100% { transform: rotate(-90deg); }
+  }
+
+  @keyframes tembak2 {
+    0% { transform: translateX(200px)rotate(0deg); }
+    50% { transform: rotate(-90deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  #coverlay, #coverlay3{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 2005;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    gap: 15px;
+  }
+
+  #coverlay2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #FDFDFF;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    gap: 15px;
+    opacity: 0.5;
+  }
+
+#paper {
+  position: fixed;
+  bottom: -400px;
+  left: 100px;
+  z-index: 3000;
+}
+
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #dad {
+    position: relative;
+    width: 65px;
+    bottom: -130px;
+    left: 200px;
+    z-index: 2;
+  }
+
+  #mom {
+    position: relative;
+    width: 65px;
+    bottom: -130px;
+    left: 400px;
+    z-index: 2;
+  }
+
+  #monkeywe {
+    position: relative;
+    width: 65px;
+    bottom: -130px;
+    z-index: 2;
+    left: -150px;
+  }
+
+  .play { animation: datang 1s forwards; }
+  .play1 { animation: tembak 2s; }
+  .play2 { animation: falls 2s forwards; }
+  .play3 { animation: hilang 3s forwards; }
+  .play4 { animation: datang2 4s; }
+
+
+  #character {
+    position: absolute;
+    width: 50px;
+    height: 70px;
+    border-radius: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    transition: opacity 0.3s; 
+  }
+
+  #joystick-container {
+    position: fixed;
+    bottom: 50px;
+    left: 50px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    touch-action: none;
+    z-index: 2;
+  }
+
+  #joystick-knob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+  }
+
+  #B1 {
+    position: fixed;
+    left: 800px;
+  }
+
+  #b {
+    position: relative;
+    z-index: 5;
+  }
+
+  #button {
+    position: fixed;
+    z-index: 4;
+    width: 120px;
+    bottom: 10px;
+    left: 550px;
+  }
+
+  .bullet,
+  .enemy,
+  .banana {
+    position: absolute;
+  }
+  
+  #plane {
+    width: 120px;
+    position: fixed;
+    bottom: 100px;
+    left: 800px;
+  }
+  
+  #T1 {
+    font-family: 'Cinzel', serif;
+    z-index: 3001;
+    position: fixed;
+    left: 150px;
+    bottom: 200px;
+  }
+</style>
+
+<body style="background-image: url('bg1.png'); background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
+  <img src="n.png" id="character" />
+  <img src="ndp.png" id="dad" />
+  <img src="mom.png" id="mom" />
+  <img src="mw.png" id="monkeywe" hidden />
+  <div id="joystick-container">
+    <div id="joystick-knob"></div>
+  </div>
+
+  <div id="coverlay">
+    <h1>tolong landscape</h1>
+  </div>
+
+  <div id="coverlay2"></div>
+  <div id="coverlay3"hidden></div>
+
+  <dialog id="dialog">
+    <span id="text-dialog"></span>
+  </dialog>
+  <button type="button" id="B1">OKAY DAD</button>
+
+  <img src="shot.png" id="button" hidden />
+  
+  <h3 style="position: relative; bottom: 70px; left: 300px; color: white;" id="wav">WAVE: 0</h3>
+  <h3 style="position: fixed; top: 20px; right: 20px; color: red; font-size: 24px; z-index: 10;" id="hpDisplay" hidden>❤❤❤</h3>
+  
+  <img src="plane.png" id="plane" 
+  />
+  
+  <div id="coverlay4"hidden>
+    <input type="image" name="" id="paper" src="paper.jpg" alt="" />
+    <p id="T1">hwlo</p>
+  </div>
+  
+  <audio src="warmu.mp3" id="mus1"></audio>
+  <script>
+  let shots = 0;
+  let wave = 0;
+  let hp = 3;
+  let baninjaKilled = 0; 
+  let mwlInterval;
+  let baninjaInterval;
+  let bombInterval;
+  
+  let canControl = true;
+  let stunTimeout;
+  
+  function updateHP() {
+    let hpStr = "";
+    for (let i = 0; i < 3; i++) {
+      if (i < hp) hpStr += "❤";
+      else hpStr += "🖤";
+    }
+    document.getElementById("hpDisplay").innerText = hpStr;
+  }
+  
+  wav.innerText = "WAVE: " + wave;
+  
+  const myDialog = document.getElementById("dialog");
+const textContainer = document.getElementById("text-dialog");
+
+ function ketik(targetElement, teks, speed = 50) {
+  let i = 0;
+  targetElement.innerHTML = ""; 
+  
+  function jalan() {
+    if (i < teks.length) {
+      targetElement.innerHTML += teks[i];
+      i++;
+      setTimeout(jalan, speed);
+    }
+  }
+  jalan();
+}
+let alreadyc1 = false;
+let alreadyc2 = false;
+
+dad.onclick = function() {
+  if (alreadyc1) return;
+  myDialog.show();
+  
+  ketik(textContainer, "HALO PEPPA AKU AYAH MU, DADDY PIG!!", 50);
+  alreadyc1 = true;
+  setTimeout(() => { myDialog.close(); }, 3000);
+}
+
+mom.onclick = function() {
+  if (alreadyc2) return;
+  myDialog.show();
+  ketik(textContainer, "Halo nak, hati-hati di jalan ya!", 50);
+  alreadyc2 = true;
+  setTimeout(() => { myDialog.close(); }, 3000);
+}
+
+  
+  setTimeout(() => { monkeywe.classList.add("play"); }, 10000);
+  setTimeout(() => { monkeywe.classList.add("play1"); }, 13000);
+  setTimeout(() => {
+    dad.classList.add("play2");
+    dad.src = "dp.png";
+    character.src = "s.png";
+    mom.src = "ml.png";
+  }, 13200);
+  
+  setTimeout(() => {
+    coverlay2.classList.add("play3");
+    dad.classList.add("play3");
+    mom.classList.add("play3");
+    monkeywe.classList.add("play3");
+    character.src = "pw.png";
+    character.style.width = "100px";
+    character.style.height = "120px";
+  }, 15000);
+  
+  setTimeout(() => {
+    coverlay4.hidden = false;
+    const pesanT1 = "Halo Peppa... Petualanganmu dimulai sekarang!";
+    
+    ketik(document.getElementById("T1"), pesanT1, 70); 
+  }, 16000);
+
+setTimeout(() => {
+  coverlay4.hidden = true;
+}, 20000);
+  setTimeout(() => {
+    plane.classList.add("play4");
+  }, 25000);
+  
+  
+  setTimeout(() => {
+    mus1.play();
+    document.body.style.backgroundImage = "url('bg2.png')";
+    button.hidden = false;
+    document.getElementById("hpDisplay").hidden = false;
+    wave = 1;
+    wav.innerText = "WAVE: " + wave;
+    
+    window.spawnMwl = function() {
+      const enemy = document.createElement("img");
+      enemy.src = "mwl.png";
+      enemy.classList.add("enemy");
+      enemy.style.width = "65px";
+      enemy.style.right = "0px";
+      enemy.style.top = Math.random() * (window.innerHeight - 70) + "px";
+      enemy.style.zIndex = "2";
+      document.body.appendChild(enemy);
+      
+      let enemyPos = window.innerWidth;
+      
+      function moveEnemy() {
+        if (!document.body.contains(enemy)) return;
+        enemyPos -= 5;
+        enemy.style.left = enemyPos + "px";
+        if (enemyPos < -100) {
+          enemy.remove();
+        } else {
+          requestAnimationFrame(moveEnemy);
+        }
+      }
+      moveEnemy();
+    };
+    
+    mwlInterval = setInterval(window.spawnMwl, 5000);
+  }, 22500);
+  
+  
+  
+  
+    const knob = document.getElementById('joystick-knob');
+    const container = document.getElementById('joystick-container');
+    const char = document.getElementById('character');
+
+    let rect = container.getBoundingClientRect();
+    let centerX = rect.width / 2;
+    let centerY = rect.height / 2;
+
+    let pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    let move = { x: 0, y: 0 };
+    let speed = 5;
+    let active = false;
+
+    container.addEventListener('mousedown', startMove);
+    container.addEventListener('touchstart', startMove, { passive: false });
+
+    window.addEventListener('mousemove', doMove);
+    window.addEventListener('touchmove', doMove, { passive: false });
+
+    window.addEventListener('mouseup', endMove);
+    window.addEventListener('touchend', endMove);
+
+    function startMove(e) {
+      active = true;
+      doMove(e);
+    }
+
+    function endMove() {
+      active = false;
+      knob.style.transform = `translate(-50%, -50%)`;
+      move.x = 0;
+      move.y = 0;
+    }
+
+    function doMove(e) {
+      
+      if (!active || !canControl) return; 
+      if (e.cancelable) e.preventDefault();
+
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      let dx = clientX - (rect.left + centerX);
+      let dy = clientY - (rect.top + centerY);
+
+      const distance = Math.min(Math.sqrt(dx * dx + dy * dy), 50);
+      const angle = Math.atan2(dy, dx);
+
+      const x = Math.cos(angle) * distance;
+      const y = Math.sin(angle) * distance;
+
+      knob.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+
+      move.x = x / 50;
+      move.y = y / 50;
+    }
+
+    function update() {
+      
+      if (!canControl) {
+        move.x = 0;
+        move.y = 0;
+      }
+
+      let newX = pos.x + (move.x * speed);
+      let newY = pos.y + (move.y * speed);
+
+      const w = char.offsetWidth || 50;
+      const h = char.offsetHeight || 70;
+      const minX = w / 2;
+      const maxX = window.innerWidth - (w / 2);
+      const minY = h / 2;
+      const maxY = window.innerHeight - (h / 2);
+
+      if (newX < minX) newX = minX;
+      if (newX > maxX) newX = maxX;
+      if (newY < minY) newY = minY;
+      if (newY > maxY) newY = maxY;
+
+      pos.x = newX;
+      pos.y = newY;
+
+      char.style.left = pos.x + "px";
+      char.style.top = pos.y + "px";
+
+      requestAnimationFrame(update);
+    }
+
+  
+  function startWave3() {
+    
+    setTimeout(() => {
+      window.location.href = "main.html";
+
+    }, 60000); 
+    bombInterval = setInterval(() => {
+      
+      plane.classList.remove("play4");
+      void plane.offsetWidth;
+      plane.classList.add("play4");
+      
+      
+      setTimeout(() => {
+        spawnBomb();
+      }, 2000);
+    }, 8000);
+  }
+  
+  function spawnBomb() {
+    const bomb = document.createElement("img");
+    bomb.src = "bomb.png";
+    bomb.style.position = "absolute";
+    bomb.style.width = "40px";
+    bomb.style.zIndex = "5";
+    
+    let planeRect = plane.getBoundingClientRect();
+    bomb.style.left = (planeRect.left + 40) + "px";
+    bomb.style.top = planeRect.top + "px";
+    document.body.appendChild(bomb);
+    
+    let bombY = planeRect.top;
+    
+    function drop() {
+      if (!document.body.contains(bomb)) return;
+      bombY += 8;
+      bomb.style.top = bombY + "px";
+      
+      let bRect = bomb.getBoundingClientRect();
+      let cRect = char.getBoundingClientRect();
+      
+      if (
+        bRect.left < cRect.right &&
+        bRect.right > cRect.left &&
+        bRect.top < cRect.bottom &&
+        bRect.bottom > cRect.top
+      ) {
+        hp -= 2;
+        updateHP();
+        bomb.remove();
+        if (hp <= 0) {
+          alert("GAME OVER - Kena Bom!");
+          location.reload();
+        }
+        return;
+      }
+      
+      if (bombY > window.innerHeight) {
+        bomb.remove();
+      } else {
+        requestAnimationFrame(drop);
+      }
+    }
+    drop();
+  }
+  
+  
+  document.getElementById("button").onclick = function() {
+    if (!canControl) return;
+    
+    const bullet = document.createElement("img");
+    bullet.src = "ammo.png";
+    bullet.classList.add("bullet");
+    bullet.style.width = "35px";
+    bullet.style.height = "30px";
+    bullet.style.zIndex = "10";
+    document.body.appendChild(bullet);
+    
+    let bx = char.offsetLeft + 25;
+    let by = char.offsetTop + 0;
+    bullet.style.left = bx + "px";
+    bullet.style.top = by + "px";
+    
+    function moveBullet() {
+      bx += 15;
+      bullet.style.left = bx + "px";
+      
+      const bulletRect = bullet.getBoundingClientRect();
+      const enemies = document.querySelectorAll('.enemy');
+      
+      enemies.forEach(enemy => {
+        const enemyRect = enemy.getBoundingClientRect();
+        
+        if (
+          bulletRect.left < enemyRect.right &&
+          bulletRect.right > enemyRect.left &&
+          bulletRect.top < enemyRect.bottom &&
+          bulletRect.bottom > enemyRect.top
+        ) {
+          
+          if (enemy.src.includes("baninja.png")) {
+            baninjaKilled++;
+            if (baninjaKilled >= 5 && wave === 2) {
+              wave = 3;
+              wav.innerText = "WAVE: " + wave;
+              startWave3();
+            }
+          }
+          
+          enemy.remove();
+          bullet.remove();
+          shots++;
+          
+          
+          if (shots === 11 && wave === 1) {
+            wave = 2;
+            wav.innerText = "WAVE: " + wave;
+            clearInterval(mwlInterval);
+            mwlInterval = setInterval(window.spawnMwl, 9000);
+            startBaninjaWave();
+          }
+        }
+      });
+      
+      if (bx > window.innerWidth) {
+        bullet.remove();
+      } else if (document.body.contains(bullet)) {
+        requestAnimationFrame(moveBullet);
+      }
+    }
+    moveBullet();
+  };
+  
+  function startBaninjaWave() {
+    baninjaInterval = setInterval(() => {
+      const ninja = document.createElement("img");
+      let isLeader = Math.random() < 0.40;
+      ninja.src = "baninja.png";
+      ninja.classList.add("enemy");
+      ninja.style.width = isLeader ? "85px" : "65px";
+      ninja.style.position = "absolute";
+      ninja.style.zIndex = "2";
+      
+      let ninjaX = window.innerWidth;
+      let ninjaY = Math.random() * (window.innerHeight - 70);
+      ninja.style.left = ninjaX + "px";
+      ninja.style.top = ninjaY + "px";
+      document.body.appendChild(ninja);
+      
+      let ninjaSpeed = isLeader ? 2 : 7;
+      
+      function moveNinja() {
+        if (!document.body.contains(ninja)) return;
+        let charRect = char.getBoundingClientRect();
+        let nRect = ninja.getBoundingClientRect();
+        
+        let dx = (charRect.left + 25) - (nRect.left + 30);
+        let dy = (charRect.top + 35) - (nRect.top + 30);
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < 40) {
+          ninja.remove();
+          hp--;
+          updateHP();
+          if (hp <= 0) { alert("game over");
+            location.reload(); }
+          return;
+        }
+        
+        ninjaX += (dx / dist) * ninjaSpeed;
+        ninjaY += (dy / dist) * ninjaSpeed;
+        ninja.style.left = ninjaX + "px";
+        ninja.style.top = ninjaY + "px";
+        requestAnimationFrame(moveNinja);
+      }
+      moveNinja();
+    }, 6000);
+  }
+  update();
+  
+     let coverlay = document.getElementById("coverlay")
+
+    function checkOrientation() {
+      if (window.innerHeight > window.innerWidth) {
+        coverlay.style.display = "flex";
+      } else {
+        coverlay.style.display = "none";
+      }
+    }
+
+    window.addEventListener("resize", checkOrientation);
+    window.addEventListener("load", checkOrientation);
+
+</script>
+</body>
+  </html>
